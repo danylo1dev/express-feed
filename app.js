@@ -1,4 +1,5 @@
 const path = require("path");
+const io = require("./socket");
 require("dotenv").config();
 
 const express = require("express");
@@ -8,6 +9,7 @@ const multer = require("multer");
 
 const feedRoutes = require("./routes/feed");
 const authRoutes = require("./routes/auth");
+const { Socket } = require("socket.io");
 
 const app = express();
 
@@ -63,6 +65,11 @@ app.use((error, req, res, next) => {
 mongoose
   .connect(process.env.MONGO_URL)
   .then((result) => {
-    app.listen(8080);
+    const server = app.listen(3000);
+    io.init(server);
+    // const io = require("socket.io")(server);
+    // io.on("connection", (client) => {
+    //   console.log("Connected");
+    // });
   })
   .catch((err) => console.log(err));

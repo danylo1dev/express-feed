@@ -12,7 +12,7 @@ I have achieved my goal of learning how to work with Express RestFull Api.
 
 ---
 
-# Instaling
+# Installing
 
 ## Prerequisites
 

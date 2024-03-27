@@ -1,7 +1,6 @@
 const express = require("express");
 
-const User = require("../models/user");
-const authController = require("../controllers/auth");
+const authController = require("./auth.controller");
 const isAuth = require("../middleware/auth");
 const signupValidation = require("../validation/signup-validation");
 const statusValidation = require("../validation/status-validation");

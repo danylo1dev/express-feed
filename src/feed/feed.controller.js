@@ -4,8 +4,8 @@ const path = require("path");
 const { validationResult } = require("express-validator/check");
 
 const io = require("../../socket");
-const Post = require("../models/post");
-const User = require("../models/user");
+const Post = require("./post");
+const User = require("../auth/user");
 
 exports.getPosts = async (req, res, next) => {
   const currentPage = req.query.page || 1;

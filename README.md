@@ -25,7 +25,7 @@ To get started with the project, follow these steps:
 1. Clone the repository from GitHub:
 
    ```bash
-   git clone <repository_url>
+   git clone https://github.com/danylo1dev/express-feed.git
    ```
 
 2. Install all dependencies:
@@ -36,11 +36,11 @@ To get started with the project, follow these steps:
 
 ## Environment Configuration
 
-The repository includes an `Example.env` file. You should create the following environment files:
+The repository includes an `.env.example` file. You should create the following environment files:
 
 - `.env`: Default environment for new scripts
 
-You can use the `Example.env` file as a template.
+You can use the `.env.example` file as a template.
 
 ## Running the Application
 
@@ -49,7 +49,7 @@ To run the application, use the following commands:
 - **Development**:
 
   ```bash
-  npm run start:dev
+  npm run dev
   ```
 
 - **Production**:

@@ -1,16 +1,16 @@
 const path = require("path");
 const io = require("./socket");
-const multerConfig = require("./configs/multer.config");
-const mongooseConfig = require("./configs/db.config");
-const errorHandler = require("./middleware/500");
-const setHeader = require("./middleware/set-headers");
+const multerConfig = require("./src/configs/multer.config");
+const mongooseConfig = require("./src/configs/db.config");
+const errorHandler = require("./src/middleware/500");
+const setHeader = require("./src/middleware/set-headers");
+require("dotenv").config();
 
 const express = require("express");
 const bodyParser = require("body-parser");
 
-const feedRoutes = require("./routes/feed");
-const authRoutes = require("./routes/auth");
-const { Socket } = require("socket.io");
+const feedRoutes = require("./src/feed/feed.router");
+const authRoutes = require("./src/auth/auth.router");
 
 const app = express();
 

@@ -1,7 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
-const User = require("../models/user");
+const User = require("./user");
 
 exports.signup = async ({ email, password, name }) => {
   try {

@@ -1,6 +1,5 @@
 const { validationResult } = require("express-validator/check");
-require("dotenv").config();
-const service = require("../services/auth");
+const service = require("./auth.service");
 
 exports.signup = async (req, res, next) => {
   const errors = validationResult(req);

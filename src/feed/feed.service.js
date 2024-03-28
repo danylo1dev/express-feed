@@ -4,6 +4,7 @@ const path = require("path");
 const io = require("../../socket");
 const Post = require("./post");
 const User = require("../auth/user");
+const statusCode = require("../utils/statusCods");
 
 exports.getPosts = async ({ page }, res, next) => {
   const currentPage = page || 1;
@@ -22,7 +23,7 @@ exports.getPosts = async ({ page }, res, next) => {
     };
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     return err;
   }
@@ -60,7 +61,7 @@ exports.createPost = async (
     };
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     return err;
   }
@@ -77,7 +78,7 @@ exports.getPost = async ({ postId }, res, next) => {
     return { message: "Post fetched.", post: post };
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     return err;
   }
@@ -118,7 +119,7 @@ exports.updatePost = async (
     return result;
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     return err;
   }
@@ -150,7 +151,7 @@ exports.deletePost = async (req, res, next) => {
     res.status(200).json({ message: "Deleted post." });
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     next(err);
   }

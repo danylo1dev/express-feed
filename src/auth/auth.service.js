@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("./user");
+const statusCode = require("../utils/statusCods");
 
 exports.signup = async ({ email, password, name }) => {
   try {
@@ -20,7 +21,7 @@ exports.signup = async ({ email, password, name }) => {
     return { message: "User created!", userId: result._id };
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     return err;
   }
@@ -32,14 +33,14 @@ exports.login = async ({ email, password }) => {
     const user = await User.findOne({ email: email });
     if (!user) {
       const error = new Error("A user with this email could not be found.");
-      error.statusCode = 401;
+      error.statusCode = statusCode.unauthorized;
       throw error;
     }
     loadedUser = user;
     const isEqual = await bcrypt.compare(password, user.password);
     if (!isEqual) {
       const error = new Error("Wrong password!");
-      error.statusCode = 401;
+      error.statusCode = statusCode.unauthorized;
       throw error;
     }
     const token = jwt.sign(
@@ -53,7 +54,7 @@ exports.login = async ({ email, password }) => {
     return { token: token, userId: loadedUser._id.toString() };
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     return err;
   }
@@ -70,7 +71,7 @@ exports.getUserStatus = async (userId) => {
     return { status: user.status };
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     return err;
   }
@@ -90,7 +91,7 @@ exports.updateUserStatus = async ({ status, userId }) => {
     return { message: "User updated." };
   } catch (err) {
     if (!err.statusCode) {
-      err.statusCode = 500;
+      err.statusCode = statusCode.internallError;
     }
     return err;
   }

@@ -31,7 +31,7 @@ To get started with the project, follow these steps:
 2. Install all dependencies:
 
    ```bash
-   npm i
+   npm ci
    ```
 
 ## Environment Configuration

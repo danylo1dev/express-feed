@@ -30,6 +30,11 @@ exports.getPosts = async ({ currentPage, perPage }) => {
 };
 
 exports.createPost = async ({ file, imageUrl, title, content, userId }) => {
+  if (file) {
+    const error = new Error("No image provided.");
+    error.statusCode = statusCode.unprocessableEntity;
+    throw error;
+  }
   const post = new Post({
     title: title,
     content: content,

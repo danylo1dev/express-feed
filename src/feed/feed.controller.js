@@ -25,17 +25,12 @@ exports.getPosts = async (req, res, next) => {
 };
 
 exports.createPost = async (req, res, next) => {
-  const errors = validationResult(req);
   if (!errors.isEmpty()) {
     const error = new Error("Validation failed, entered data is incorrect.");
     error.statusCode = statusCode.unprocessableEntity;
     throw error;
   }
-  if (!req.file) {
-    const error = new Error("No image provided.");
-    error.statusCode = statusCode.unprocessableEntity;
-    throw error;
-  }
+  const errors = validationResult(req);
   const imageUrl = req.file.path;
   const title = req.body.title;
   const content = req.body.content;

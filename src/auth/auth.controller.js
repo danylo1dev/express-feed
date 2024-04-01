@@ -12,7 +12,7 @@ exports.signup = async (req, res, next) => {
   }
 
   try {
-    const result = service.signup(req.body);
+    const result = await service.signup(req.body);
     res.status(statusCode.created).json(result);
   } catch (err) {
     if (!err.statusCode) {
@@ -24,7 +24,7 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const result = service.login(req.body);
+    const result = await service.login(req.body);
     res.status(statusCode.ok).json(result);
   } catch (err) {
     if (!err.statusCode) {
@@ -36,7 +36,7 @@ exports.login = async (req, res, next) => {
 
 exports.getUserStatus = async (req, res, next) => {
   try {
-    const result = service.getUserStatus(req.userId);
+    const result = await service.getUserStatus(req.userId);
     res.status(statusCode.ok).json(result);
   } catch (err) {
     if (!err.statusCode) {
@@ -49,7 +49,7 @@ exports.getUserStatus = async (req, res, next) => {
 exports.updateUserStatus = async (req, res, next) => {
   const newStatus = req.body.status;
   try {
-    const result = service.updateUserStatus({
+    const result = await service.updateUserStatus({
       status: newStatus,
       userId: req.userId,
     });

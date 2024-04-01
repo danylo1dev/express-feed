@@ -6,9 +6,9 @@ const Post = require("./post");
 const User = require("../auth/user");
 const statusCode = require("../utils/statusCods");
 
-exports.getPosts = async ({ page }, res, next) => {
+exports.getPosts = async ({ currentPage, perPage }) => {
   const currentPage = page || 1;
-  const perPage = 2;
+  const perPage = perPage || 2;
   try {
     const totalItems = await Post.find().countDocuments();
     const posts = await Post.find()
@@ -29,16 +29,7 @@ exports.getPosts = async ({ page }, res, next) => {
   }
 };
 
-exports.createPost = async (
-  { file, imageUrl, title, content, userId },
-  res,
-  next
-) => {
-  if (!file) {
-    const error = new Error("No image provided.");
-    error.statusCode = 422;
-    throw error;
-  }
+exports.createPost = async ({ file, imageUrl, title, content, userId }) => {
   const post = new Post({
     title: title,
     content: content,
@@ -50,10 +41,6 @@ exports.createPost = async (
     const user = await User.findById(userId);
     user.posts.push(post);
     await user.save();
-    io.getIO().emit("posts", {
-      action: "create",
-      post: { ...post._doc, creator: { _id: userId, name: user.name } },
-    });
     return {
       message: "Post created successfully!",
       post: post,
@@ -67,7 +54,7 @@ exports.createPost = async (
   }
 };
 
-exports.getPost = async ({ postId }, res, next) => {
+exports.getPost = async ({ postId }) => {
   const post = await Post.findById(postId);
   try {
     if (!post) {
@@ -84,11 +71,14 @@ exports.getPost = async ({ postId }, res, next) => {
   }
 };
 
-exports.updatePost = async (
-  { postId, title, content, imageUrl, file, userId },
-  res,
-  next
-) => {
+exports.updatePost = async ({
+  postId,
+  title,
+  content,
+  imageUrl,
+  file,
+  userId,
+}) => {
   if (file) {
     imageUrl = file.path;
   }
@@ -147,8 +137,6 @@ exports.deletePost = async (req, res, next) => {
     const user = await User.findById(req.userId);
     user.posts.pull(postId);
     await user.save();
-    io.getIO().emit("posts", { action: "delete", post: postId });
-    res.status(200).json({ message: "Deleted post." });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = statusCode.internallError;
